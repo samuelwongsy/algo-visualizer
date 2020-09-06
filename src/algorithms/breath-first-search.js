@@ -11,7 +11,6 @@ function bfs(grid, startNode, finishNode) {
 
   while (!!unvisitedNodes.length) {
     const currentNode = unvisitedNodes.shift();
-    console.log(currentNode);
 
     if (currentNode.isWall) continue;
 

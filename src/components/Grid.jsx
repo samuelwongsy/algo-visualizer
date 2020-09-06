@@ -10,7 +10,7 @@ const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 45;
 
 function Grid() {
-  const [nodes, setNodes] = useState(getInitialGrid());
+  const [grid, setGrid] = useState(getInitialGrid());
 
   // useEffect(() => {
   //   for (let row = 0; row < 20; row++) {
@@ -24,18 +24,33 @@ function Grid() {
   // }, []);
 
   const visualizeBFS = () => {
-    const grid = nodes;
-    const startNode = grid[START_NODE_ROW][START_NODE_COL];
-    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = bfs(grid, startNode, finishNode);
-    console.log(visitedNodesInOrder);
+    const copyOfGrid = grid;
+    const startNode = copyOfGrid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = copyOfGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = bfs(copyOfGrid, startNode, finishNode);
+    animateBFS(visitedNodesInOrder);
+  };
+
+  const animateBFS = visitedNodesInOrder => {
+    for (let i = 0; i < visitedNodesInOrder.length; i++) {
+      setTimeout(() => {
+        const node = visitedNodesInOrder[i];
+        const newGrid = grid.slice();
+        const newNode = {
+          ...node,
+          isVisited: true
+        };
+        newGrid[node.row][node.col] = newNode;
+        setGrid(newGrid);
+      }, 20 * i);
+    }
   };
 
   return (
     <div>
       <button onClick={visualizeBFS}>Visualize</button>
       <div>
-        {nodes.map((row, rowIndex) => {
+        {grid.map((row, rowIndex) => {
           return (
             <div key={rowIndex}>
               {row.map((node, colIndex) => (
@@ -43,6 +58,7 @@ function Grid() {
                   key={[node.col, node.row]}
                   isStart={node.isStart}
                   isFinish={node.isFinish}
+                  isVisited={node.isVisited}
                 />
               ))}
             </div>

@@ -6,6 +6,8 @@ function Node(props) {
     ? "node-finish"
     : props.isStart
     ? "node-start"
+    : props.isVisited
+    ? "node-visited"
     : "";
 
   return <div className={`node ${extraClassName}`}></div>;
