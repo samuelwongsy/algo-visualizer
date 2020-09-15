@@ -11,6 +11,7 @@ const FINISH_NODE_COL = 45;
 
 function Grid() {
   const [grid, setGrid] = useState(getInitialGrid());
+  const [mouseDown, setMouseDown] = useState(false);
 
   // useEffect(() => {
   //   for (let row = 0; row < 20; row++) {
@@ -35,20 +36,36 @@ function Grid() {
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
-        const newGrid = grid.slice();
-        const newNode = {
-          ...node,
-          isVisited: true
-        };
-        newGrid[node.row][node.col] = newNode;
-        setGrid(newGrid);
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          "node node-visited";
       }, 20 * i);
     }
   };
 
+  const clearGrid = () => {
+    setGrid(getInitialGrid());
+  };
+
+  const handleMouseDown = (row, col) => {
+    const newGrid = getNewGridWithWallToggled(grid, row, col);
+    setMouseDown(true);
+    setGrid(newGrid);
+  };
+
+  const handleMouseOver = (row, col) => {
+    if (!mouseDown) return;
+    const newGrid = getNewGridWithWallToggled(grid, row, col);
+    setGrid(newGrid);
+  };
+
+  const handleMouseUp = (row, col) => {
+    setMouseDown(false);
+  };
+
   return (
     <div>
-      <button onClick={visualizeBFS}>Visualize</button>
+      <button onClick={visualizeBFS}> Visualize </button>
+      <button onClick={clearGrid}> Clear </button>
       <div>
         {grid.map((row, rowIndex) => {
           return (
@@ -58,7 +75,12 @@ function Grid() {
                   key={[node.col, node.row]}
                   isStart={node.isStart}
                   isFinish={node.isFinish}
-                  isVisited={node.isVisited}
+                  isWall={node.isWall}
+                  onMouseDown={handleMouseDown}
+                  onMouseEnter={handleMouseOver}
+                  onMouseUp={handleMouseUp}
+                  row={node.row}
+                  col={node.col}
                 />
               ))}
             </div>
@@ -93,6 +115,17 @@ const createNode = (col, row) => {
     isWall: false,
     previousNode: null
   };
+};
+
+const getNewGridWithWallToggled = (grid, row, col) => {
+  const newGrid = grid.slice();
+  const node = newGrid[row][col];
+  const newNode = {
+    ...node,
+    isWall: !node.isWall
+  };
+  newGrid[row][col] = newNode;
+  return newGrid;
 };
 
 export default Grid;

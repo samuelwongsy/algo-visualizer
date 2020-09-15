@@ -2,15 +2,34 @@ import React from "react";
 import "./Node.css";
 
 function Node(props) {
-  const extraClassName = props.isFinish
+  const {
+    row,
+    col,
+    isFinish,
+    isStart,
+    isWall,
+    onMouseDown,
+    onMouseEnter,
+    onMouseUp
+  } = props;
+
+  const extraClassName = isFinish
     ? "node-finish"
-    : props.isStart
+    : isStart
     ? "node-start"
-    : props.isVisited
-    ? "node-visited"
+    : isWall
+    ? "node-wall"
     : "";
 
-  return <div className={`node ${extraClassName}`}></div>;
+  return (
+    <div
+      id={`node-${row}-${col}`}
+      className={`node ${extraClassName}`}
+      onMouseDown={() => onMouseDown(row, col)}
+      onMouseEnter={() => onMouseEnter(row, col)}
+      onMouseUp={() => onMouseUp(row, col)}
+    ></div>
+  );
 }
 
 export default Node;
