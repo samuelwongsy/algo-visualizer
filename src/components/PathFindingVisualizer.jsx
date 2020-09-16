@@ -1,10 +1,11 @@
 import React from "react";
 import Grid from "./Grid";
+import NavigationBar from "./NavigationBar";
 
 function PathFindingVisualizer() {
   return (
     <div>
-      Hello
+      <NavigationBar />
       <Grid />
     </div>
   );

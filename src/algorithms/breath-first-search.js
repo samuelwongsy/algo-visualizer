@@ -19,12 +19,15 @@ function bfs(grid, startNode, finishNode) {
     currentNode.isVisited = true;
     visitedNodesInOrder.push(currentNode);
 
-    if (currentNode === finishNode) return visitedNodesInOrder;
+    if (currentNode === finishNode) break;
 
     updateUnvisitedNeighbours(currentNode, unvisitedNodes, grid);
   }
 
-  return visitedNodesInOrder;
+  const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+  console.log(visitedNodesInOrder);
+
+  return [visitedNodesInOrder, nodesInShortestPathOrder];
 }
 
 function updateUnvisitedNeighbours(node, queue, grid) {
@@ -37,7 +40,10 @@ function updateUnvisitedNeighbours(node, queue, grid) {
 }
 
 function getUnvisitedNeighbours(node, grid) {
-  const { col, row } = node;
+  const {
+    col,
+    row
+  } = node;
 
   const neighbours = [];
 
@@ -63,4 +69,3 @@ function getNodesInShortestPathOrder(finishNode) {
 }
 
 export default bfs;
-export { getNodesInShortestPathOrder };

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Node from "./Node";
-import bfs, {
-  getNodesInShortestPathOrder
-} from "../algorithms/breath-first-search";
+import "./Grid.css";
+import bfs from "../algorithms/breath-first-search";
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 5;
@@ -28,17 +27,38 @@ function Grid() {
     const copyOfGrid = grid;
     const startNode = copyOfGrid[START_NODE_ROW][START_NODE_COL];
     const finishNode = copyOfGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = bfs(copyOfGrid, startNode, finishNode);
-    animateBFS(visitedNodesInOrder);
+    const [visitedNodesInOrder, nodesInShortestPathOrder] = bfs(
+      copyOfGrid,
+      startNode,
+      finishNode
+    );
+    animateBFS(visitedNodesInOrder, nodesInShortestPathOrder);
   };
 
-  const animateBFS = visitedNodesInOrder => {
-    for (let i = 0; i < visitedNodesInOrder.length; i++) {
+  const animateBFS = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+      if (i === visitedNodesInOrder.length) {
+        setTimeout(() => {
+          animateShortestPath(nodesInShortestPathOrder);
+        }, 20 * i);
+        return;
+      } else {
+        setTimeout(() => {
+          const node = visitedNodesInOrder[i];
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node node-visited";
+        }, 20 * i);
+      }
+    }
+  };
+
+  const animateShortestPath = nodesInShortestPathOrder => {
+    for (let j = 0; j < nodesInShortestPathOrder.length; j++) {
       setTimeout(() => {
-        const node = visitedNodesInOrder[i];
+        const node = nodesInShortestPathOrder[j];
         document.getElementById(`node-${node.row}-${node.col}`).className =
-          "node node-visited";
-      }, 20 * i);
+          "node node-shortest";
+      }, 50 * j);
     }
   };
 
@@ -64,12 +84,14 @@ function Grid() {
 
   return (
     <div>
-      <button onClick={visualizeBFS}> Visualize </button>
-      <button onClick={clearGrid}> Clear </button>
-      <div>
+      <div className="grid">
+        <button onClick={visualizeBFS}> Visualize </button>
+        <button onClick={clearGrid}> Clear </button>
+      </div>
+      <div className="grid">
         {grid.map((row, rowIndex) => {
           return (
-            <div key={rowIndex}>
+            <div key={rowIndex} className="row">
               {row.map((node, colIndex) => (
                 <Node
                   key={[node.col, node.row]}
