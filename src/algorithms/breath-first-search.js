@@ -25,7 +25,7 @@ function bfs(grid, startNode, finishNode) {
   }
 
   const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-  console.log(visitedNodesInOrder);
+  // console.log(visitedNodesInOrder);
 
   return [visitedNodesInOrder, nodesInShortestPathOrder];
 }

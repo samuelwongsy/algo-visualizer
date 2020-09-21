@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Node from "./Node";
 import "./Grid.css";
 import bfs from "../algorithms/breath-first-search";
+import aStarSearch from "../algorithms/a-star-search";
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 5;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 45;
 
-function Grid() {
+function Grid(props) {
   const [grid, setGrid] = useState(getInitialGrid());
   const [mouseDown, setMouseDown] = useState(false);
+  const [algorithm, dispatch] = useReducer(algoReducer, bfs);
+  const { algoString } = props;
 
   // useEffect(() => {
   //   for (let row = 0; row < 20; row++) {
@@ -23,19 +26,24 @@ function Grid() {
   //   }
   // }, []);
 
-  const visualizeBFS = () => {
+  useEffect(() => {
+    dispatch({ type: algoString });
+  }, [algoString]);
+
+  const visualizeAlgorithm = () => {
     const copyOfGrid = grid;
+    const algoToVisualize = algorithm;
     const startNode = copyOfGrid[START_NODE_ROW][START_NODE_COL];
     const finishNode = copyOfGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const [visitedNodesInOrder, nodesInShortestPathOrder] = bfs(
+    const [visitedNodesInOrder, nodesInShortestPathOrder] = algoToVisualize(
       copyOfGrid,
       startNode,
       finishNode
     );
-    animateBFS(visitedNodesInOrder, nodesInShortestPathOrder);
+    animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
   };
 
-  const animateBFS = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+  const animateAlgorithm = (visitedNodesInOrder, nodesInShortestPathOrder) => {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
@@ -85,7 +93,7 @@ function Grid() {
   return (
     <div>
       <div className="grid">
-        <button onClick={visualizeBFS}> Visualize </button>
+        <button onClick={visualizeAlgorithm}> Visualize </button>
         <button onClick={clearGrid}> Clear </button>
       </div>
       <div className="grid">
@@ -133,6 +141,8 @@ const createNode = (col, row) => {
     isStart: row === START_NODE_ROW && col === START_NODE_COL,
     isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
     distance: Infinity,
+    gScore: Infinity,
+    fScore: Infinity,
     isVisited: false,
     isWall: false,
     previousNode: null
@@ -148,6 +158,17 @@ const getNewGridWithWallToggled = (grid, row, col) => {
   };
   newGrid[row][col] = newNode;
   return newGrid;
+};
+
+const algoReducer = (state, action) => {
+  switch (action.type) {
+    case "bfs":
+      return bfs;
+    case "a-star":
+      return aStarSearch;
+    default:
+      return bfs;
+  }
 };
 
 export default Grid;
