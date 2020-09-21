@@ -1,4 +1,6 @@
 // a-star search using manhatten distance heuristics
+// not using visited because a-star search allows you to reach a visited node with
+// a lower distance
 
 let FINISH_NODE_ROW;
 let FINISH_NODE_COL;
@@ -12,11 +14,11 @@ function aStarSearch(grid, startNode, finishNode) {
     FINISH_NODE_COL = finishNode.col;
 
     const visitedNodesInOrder = [];
-    const unvisitedNodes = []; // queue
-    unvisitedNodes.push(startNode);
+    const openNodes = [];
+    openNodes.push(startNode);
 
-    while (!!unvisitedNodes.length) {
-        const currentNode = unvisitedNodes.shift();
+    while (!!openNodes.length) {
+        const currentNode = openNodes.shift();
 
         if (currentNode === startNode) {
             currentNode.gScore = 0;
@@ -25,14 +27,11 @@ function aStarSearch(grid, startNode, finishNode) {
 
         if (currentNode.isWall) continue;
 
-        // if (currentNode.isVisited) continue;
-
-        currentNode.isVisited = true;
         visitedNodesInOrder.push(currentNode);
 
         if (currentNode === finishNode) break;
 
-        updateUnvisitedNeighbours(currentNode, unvisitedNodes, grid);
+        updateNeighbours(currentNode, openNodes, grid);
     }
 
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
@@ -48,10 +47,10 @@ function getHeuristics(node) {
     return distance
 }
 
-function updateUnvisitedNeighbours(node, queue, grid) {
-    const unvisitedNeighbours = getUnvisitedNeighbours(node, grid);
+function updateNeighbours(node, queue, grid) {
+    const neighbours = getNeighbours(node, grid);
 
-    for (const neighbour of unvisitedNeighbours) {
+    for (const neighbour of neighbours) {
         const tentativeGScore = node.gScore + 1;
         if (tentativeGScore < neighbour.gScore) {
             neighbour.previousNode = node;
@@ -63,7 +62,7 @@ function updateUnvisitedNeighbours(node, queue, grid) {
     queue.sort((a, b) => a.fScore - b.fScore);
 }
 
-function getUnvisitedNeighbours(node, grid) {
+function getNeighbours(node, grid) {
     const {
         col,
         row
