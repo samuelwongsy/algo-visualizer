@@ -90,6 +90,11 @@ function Grid(props) {
     setMouseDown(false);
   };
 
+  const handleClick = (row, col) => {
+    const newGrid = getNewGridWithWallToggled(grid, row, col);
+    setGrid(newGrid);
+  };
+
   return (
     <div>
       <div className="grid">
@@ -107,8 +112,9 @@ function Grid(props) {
                   isFinish={node.isFinish}
                   isWall={node.isWall}
                   onMouseDown={handleMouseDown}
-                  onMouseEnter={handleMouseOver}
+                  onMouseOver={handleMouseOver}
                   onMouseUp={handleMouseUp}
+                  onClick={handleClick}
                   row={node.row}
                   col={node.col}
                 />
@@ -154,7 +160,7 @@ const getNewGridWithWallToggled = (grid, row, col) => {
   const node = newGrid[row][col];
   const newNode = {
     ...node,
-    isWall: !node.isWall
+    isWall: true
   };
   newGrid[row][col] = newNode;
   return newGrid;

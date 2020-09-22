@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Node.css";
 
 function Node(props) {
@@ -9,9 +9,23 @@ function Node(props) {
     isStart,
     isWall,
     onMouseDown,
-    onMouseEnter,
+    onMouseOver,
     onMouseUp
   } = props;
+
+  const [delayHandler, setDelayHandler] = useState(null);
+
+  const handleMouseEnter = (row, col) => {
+    setDelayHandler(
+      setTimeout(() => {
+        onMouseOver(row, col);
+      }, 1)
+    );
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(delayHandler);
+  };
 
   const extraClassName = isFinish
     ? "node-finish"
@@ -26,7 +40,8 @@ function Node(props) {
       id={`node-${row}-${col}`}
       className={`node ${extraClassName}`}
       onMouseDown={() => onMouseDown(row, col)}
-      onMouseEnter={() => onMouseEnter(row, col)}
+      onMouseEnter={() => handleMouseEnter(row, col)}
+      onMouseLeave={handleMouseLeave}
       onMouseUp={() => onMouseUp(row, col)}
     ></div>
   );
