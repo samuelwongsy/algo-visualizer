@@ -2,14 +2,14 @@ import React, { useState, useEffect, useReducer } from "react";
 import Node from "./Node";
 import "./Grid.css";
 import bfs from "../algorithms/breath-first-search";
-import aStarSearch from "../algorithms/a-star-search";
+import aStarSearch from "../algorithms/a-star-search-queue";
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 5;
 const FINISH_NODE_ROW = 10;
 const FINISH_NODE_COL = 45;
 
-function Grid(props) {
+function PathFindingGrid(props) {
   const [grid, setGrid] = useState(getInitialGrid());
   const [mouseDown, setMouseDown] = useState(false);
   const [algorithm, dispatch] = useReducer(algoReducer, bfs);
@@ -168,13 +168,13 @@ const getNewGridWithWallToggled = (grid, row, col) => {
 
 const algoReducer = (state, action) => {
   switch (action.type) {
-    case "bfs":
+    case "Breadth First Search":
       return bfs;
-    case "a-star":
+    case "A-star Search":
       return aStarSearch;
     default:
       return bfs;
   }
 };
 
-export default Grid;
+export default PathFindingGrid;

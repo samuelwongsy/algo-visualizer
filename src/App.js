@@ -1,14 +1,12 @@
 import React from "react";
-import PathFindingVisualizer from "./components/PathFindingVisualizer";
+import HomePage from "./components/HomePage";
 import "./App.css";
 
 function App() {
-  return ( <
-    div className = "App" >
-    <
-    PathFindingVisualizer / >
-    <
-    /div>
+  return (
+    <div className="App">
+      <HomePage />
+    </div>
   );
 }
 

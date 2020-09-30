@@ -1,4 +1,3 @@
-import MinHeap from './data-structures/MinHeap';
 // a-star search using manhatten distance heuristics
 // not using visited because a-star search allows you to reach a visited node with
 // a lower distance
@@ -15,11 +14,10 @@ function aStarSearch(grid, startNode, finishNode) {
     FINISH_NODE_COL = finishNode.col;
 
     const visitedNodesInOrder = [];
-    const openNodes = new MinHeap([]);
-    openNodes.insert(startNode);
-    while (!!openNodes.heap.length) {
-        // console.log(openNodes.heap);
-        const currentNode = openNodes.remove();
+    const openNodes = [];
+    openNodes.push(startNode);
+    while (!!openNodes.length) {
+        const currentNode = openNodes.shift();
 
         if (currentNode === startNode) {
             currentNode.gScore = 0;
@@ -51,7 +49,7 @@ function getHeuristics(node) {
     return distance
 }
 
-function updateNeighbours(node, minHeap, grid) {
+function updateNeighbours(node, queue, grid) {
     const neighbours = getNeighbours(node, grid);
 
     for (const neighbour of neighbours) {
@@ -60,9 +58,10 @@ function updateNeighbours(node, minHeap, grid) {
             neighbour.previousNode = node;
             neighbour.gScore = tentativeGScore;
             neighbour.distance = neighbour.gScore + getHeuristics(neighbour);
-            if (!minHeap.heap.includes(neighbour)) minHeap.insert(neighbour);
+            if (!queue.includes(neighbour)) queue.push(neighbour);
         }
     }
+    queue.sort((a, b) => a.distance - b.distance);
 }
 
 function getNeighbours(node, grid) {
