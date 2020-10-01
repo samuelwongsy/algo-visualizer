@@ -11,6 +11,7 @@ export default class SideMenu extends Component {
 
   render() {
     const { activeItem } = this.state;
+    const { visualizeAlgorithm, clearGrid } = this.props;
 
     return (
       <Menu fluid inverted vertical size="large">
@@ -46,13 +47,25 @@ export default class SideMenu extends Component {
           onClick={this.handleItemClick}
         /> */}
         <Menu.Item>
-          <Button fluid secondary icon labelPosition="right">
+          <Button
+            fluid
+            secondary
+            icon
+            labelPosition="right"
+            onClick={visualizeAlgorithm}
+          >
             Visualize
             <Icon name="caret square right" />
           </Button>
         </Menu.Item>
         <Menu.Item>
-          <Button fluid secondary icon labelPosition="right">
+          <Button
+            fluid
+            secondary
+            icon
+            labelPosition="right"
+            onClick={clearGrid}
+          >
             Clear
             <Icon name="redo alternate" />
           </Button>

@@ -19,7 +19,7 @@ function Node(props) {
     setDelayHandler(
       setTimeout(() => {
         onMouseOver(row, col);
-      }, 1)
+      }, 0.2)
     );
   };
 

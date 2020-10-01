@@ -1,78 +1,18 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import Node from "./Node";
 import "./Grid.css";
-import bfs from "../algorithms/breath-first-search";
-import aStarSearch from "../algorithms/a-star-search-queue";
-
-const START_NODE_ROW = 10;
-const START_NODE_COL = 5;
-const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 45;
 
 function PathFindingGrid(props) {
-  const [grid, setGrid] = useState(getInitialGrid());
   const [mouseDown, setMouseDown] = useState(false);
-  const [algorithm, dispatch] = useReducer(algoReducer, bfs);
-  const { algoString } = props;
-
-  // useEffect(() => {
-  //   for (let row = 0; row < 20; row++) {
-  //     const currentRow = [];
-  //     for (let col = 0; col < 50; col++) {
-  //       const currentNode = createNode(col, row);
-  //       currentRow.push(currentNode);
-  //     }
-  //     setNodes(prevArray => [...prevArray, currentRow]);
-  //   }
-  // }, []);
+  const { grid, setGrid } = props;
 
   useEffect(() => {
-    dispatch({ type: algoString });
-  }, [algoString]);
-
-  const visualizeAlgorithm = () => {
-    const copyOfGrid = grid;
-    const algoToVisualize = algorithm;
-    const startNode = copyOfGrid[START_NODE_ROW][START_NODE_COL];
-    const finishNode = copyOfGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const [visitedNodesInOrder, nodesInShortestPathOrder] = algoToVisualize(
-      copyOfGrid,
-      startNode,
-      finishNode
-    );
-    animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
-  };
-
-  const animateAlgorithm = (visitedNodesInOrder, nodesInShortestPathOrder) => {
-    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-      if (i === visitedNodesInOrder.length) {
-        setTimeout(() => {
-          animateShortestPath(nodesInShortestPathOrder);
-        }, 20 * i);
-        return;
-      } else {
-        setTimeout(() => {
-          const node = visitedNodesInOrder[i];
-          document.getElementById(`node-${node.row}-${node.col}`).className =
-            "node node-visited";
-        }, 20 * i);
+    for (let row = 0; row < grid.length; row++) {
+      for (let col = 0; col < grid[0].length; col++) {
+        document.getElementById(`node-${row}-${col}`).className = "node";
       }
     }
-  };
-
-  const animateShortestPath = nodesInShortestPathOrder => {
-    for (let j = 0; j < nodesInShortestPathOrder.length; j++) {
-      setTimeout(() => {
-        const node = nodesInShortestPathOrder[j];
-        document.getElementById(`node-${node.row}-${node.col}`).className =
-          "node node-shortest";
-      }, 50 * j);
-    }
-  };
-
-  const clearGrid = () => {
-    setGrid(getInitialGrid());
-  };
+  }, [grid]);
 
   const handleMouseDown = (row, col) => {
     const newGrid = getNewGridWithWallToggled(grid, row, col);
@@ -97,10 +37,6 @@ function PathFindingGrid(props) {
 
   return (
     <div>
-      <div className="grid">
-        <button onClick={visualizeAlgorithm}> Visualize </button>
-        <button onClick={clearGrid}> Clear </button>
-      </div>
       <div className="grid">
         {grid.map((row, rowIndex) => {
           return (
@@ -127,36 +63,8 @@ function PathFindingGrid(props) {
   );
 }
 
-const getInitialGrid = () => {
-  const grid = [];
-  for (let row = 0; row < 20; row++) {
-    const currentRow = [];
-    for (let col = 0; col < 50; col++) {
-      const currentNode = createNode(col, row);
-      currentRow.push(currentNode);
-    }
-    grid.push(currentRow);
-  }
-  return grid;
-};
-
-const createNode = (col, row) => {
-  return {
-    col,
-    row,
-    isStart: row === START_NODE_ROW && col === START_NODE_COL,
-    isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-    distance: Infinity,
-    gScore: Infinity,
-    fScore: Infinity,
-    isVisited: false,
-    isWall: false,
-    previousNode: null
-  };
-};
-
 const getNewGridWithWallToggled = (grid, row, col) => {
-  const newGrid = grid.slice();
+  const newGrid = grid;
   const node = newGrid[row][col];
   const newNode = {
     ...node,
@@ -164,17 +72,6 @@ const getNewGridWithWallToggled = (grid, row, col) => {
   };
   newGrid[row][col] = newNode;
   return newGrid;
-};
-
-const algoReducer = (state, action) => {
-  switch (action.type) {
-    case "Breadth First Search":
-      return bfs;
-    case "A-star Search":
-      return aStarSearch;
-    default:
-      return bfs;
-  }
 };
 
 export default PathFindingGrid;
