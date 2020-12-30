@@ -4,6 +4,8 @@ import SideMenu from "./SideMenu";
 import { Container, Grid } from "semantic-ui-react";
 import bfs from "../algorithms/breath-first-search";
 import aStarSearch from "../algorithms/a-star-search-queue";
+import aStarSearchMinHeap from "../algorithms/a-star-search-queue";
+import recursiveDivision from "../algorithms/maze-generation-algorithms/recursive-division";
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 5;
@@ -42,6 +44,8 @@ export default function PathFindingVisualizer() {
       } else {
         setTimeout(() => {
           const node = visitedNodesInOrder[i];
+          // const newGrid = getNewGridWithVisitedClass(grid, node.row, node.col);
+          // setGrid(newGrid);
           document.getElementById(`node-${node.row}-${node.col}`).className =
             "node node-visited";
         }, 20 * i);
@@ -61,12 +65,50 @@ export default function PathFindingVisualizer() {
 
   const clearGrid = () => {
     setGrid(getInitialGrid());
+    for (let row = 0; row < grid.length; row++) {
+      for (let col = 0; col < grid[0].length; col++) {
+        if (grid[row][col].isStart) {
+          document.getElementById(`node-${row}-${col}`).className = "node node-start";
+        } else if (grid[row][col].isFinish) {
+          document.getElementById(`node-${row}-${col}`).className = "node node-finish";
+        } else {
+          document.getElementById(`node-${row}-${col}`).className = "node";
+        }
+      }
+    }
   };
 
   const handleSelection = newAlgoString => {
     setAlgoString(newAlgoString);
     console.log(newAlgoString);
   };
+
+  const handleWallGeneration = wallString => {
+    let wallAlgo = () => {};
+    if (wallString === 'Default'){
+      return;
+    } else if (wallString === 'Recursive Division') {
+      wallAlgo = recursiveDivision;
+    }
+
+    const copyOfGrid = grid;
+    const startNode = copyOfGrid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = copyOfGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const [newGrid, wallNodesInOrder] = wallAlgo(grid, startNode, finishNode);
+    animateWallAlgo(wallNodesInOrder);
+  }
+
+  const animateWallAlgo = (wallNodesInOrder) => {
+    for (let i = 0; i < wallNodesInOrder.length; i++) {
+      setTimeout(() => {
+        const node = wallNodesInOrder[i];
+        const newGrid = getNewGridWithWallToggled(grid, node.row, node.col);
+        setGrid(newGrid);
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node node-wall";
+      }, 20 * i);
+    }
+  }
 
   return (
     <div>
@@ -77,6 +119,7 @@ export default function PathFindingVisualizer() {
               handleSelection={handleSelection}
               visualizeAlgorithm={visualizeAlgorithm}
               clearGrid={clearGrid}
+              handleWallGeneration={handleWallGeneration}
             />
           </Container>
         </Grid.Column>
@@ -85,6 +128,7 @@ export default function PathFindingVisualizer() {
             algoString={algoString}
             grid={grid}
             setGrid={setGrid}
+            getNewGridWithWallToggled={getNewGridWithWallToggled}
           />
         </Grid.Column>
       </Grid>
@@ -116,6 +160,7 @@ const createNode = (col, row) => {
     fScore: Infinity,
     isVisited: false,
     isWall: false,
+    visitedClass: false,
     previousNode: null
   };
 };
@@ -126,7 +171,33 @@ const algoReducer = (state, action) => {
       return bfs;
     case "A-star Search":
       return aStarSearch;
+    case "A-star Search Min Heap":
+      return aStarSearchMinHeap
     default:
       return bfs;
   }
+};
+
+const getNewGridWithVisitedClass = (grid, row, col) => {
+  const newGrid = grid;
+  const node = newGrid[row][col];
+  if (node.isStart || node.isFinish) return grid;
+  const newNode = {
+    ...node,
+    visitedClass: true
+  };
+  newGrid[row][col] = newNode;
+  return newGrid;
+};
+
+const getNewGridWithWallToggled = (grid, row, col) => {
+  const newGrid = grid;
+  const node = newGrid[row][col];
+  if (node.isStart || node.isFinish) return grid;
+  const newNode = {
+    ...node,
+    isWall: !node.isWall
+  };
+  newGrid[row][col] = newNode;
+  return newGrid;
 };

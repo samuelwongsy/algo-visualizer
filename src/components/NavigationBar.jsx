@@ -30,7 +30,7 @@ function NavigationBar(props) {
             Home
           </Menu.Item>
 
-          <Dropdown item simple text="Pathfinding Visualizer">
+          {/* <Dropdown item simple text="Pathfinding Visualizer">
             <Dropdown.Menu>
               <Dropdown.Header>Algorithms</Dropdown.Header>
               <Dropdown.Item
@@ -45,20 +45,9 @@ function NavigationBar(props) {
               >
                 A* Search
               </Dropdown.Item>
-              {/* <Dropdown.Divider />
-              <Dropdown.Header>Header Item</Dropdown.Header>
-              <Dropdown.Item>
-                <i className="dropdown icon" />
-                <span className="text">Submenu</span>
-                <Dropdown.Menu>
-                  <Dropdown.Item>List Item</Dropdown.Item>
-                  <Dropdown.Item>List Item</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown.Item>
-              <Dropdown.Item>List Item</Dropdown.Item> */}
             </Dropdown.Menu>
           </Dropdown>
-          <Menu.Item>Visualizing: {algoString}</Menu.Item>
+          <Menu.Item>Visualizing: {algoString}</Menu.Item> */}
         </Container>
       </Menu>
     </div>

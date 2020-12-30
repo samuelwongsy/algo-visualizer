@@ -2,15 +2,28 @@ import React, { Component } from "react";
 import { Menu, Button, Icon } from "semantic-ui-react";
 
 export default class SideMenu extends Component {
-  state = { activeItem: "Breadth First Search" };
+  state = { 
+    activeItem: "Breadth First Search",
+    activeWall: "Default"
+  };
 
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
     this.props.handleSelection(name);
   };
 
+  handleWallAlgoClick = (e, { name }) => {
+    this.setState({ activeWall: name });
+    this.props.handleWallGeneration(name);
+  }
+
+  clearGrid = (e) => {
+    this.setState({ activeWall: "Default" });
+    this.props.clearGrid();
+  }
+
   render() {
-    const { activeItem } = this.state;
+    const { activeItem, activeWall } = this.state;
     const { visualizeAlgorithm, clearGrid } = this.props;
 
     return (
@@ -27,6 +40,22 @@ export default class SideMenu extends Component {
               name="A-star Search"
               active={activeItem === "A-star Search"}
               onClick={this.handleItemClick}
+            />
+            <Menu.Item
+              name="A-star Search Min Heap"
+              active={activeItem === "A-star Search Min Heap"}
+              onClick={this.handleItemClick}
+            />
+          </Menu.Menu>
+        </Menu.Item>
+
+        <Menu.Item>
+          Wall Generation
+          <Menu.Menu>
+            <Menu.Item 
+              name="Recursive Division"
+              active={activeWall === "Recursive Division"}
+              onClick={this.handleWallAlgoClick}
             />
           </Menu.Menu>
         </Menu.Item>
@@ -64,7 +93,7 @@ export default class SideMenu extends Component {
             secondary
             icon
             labelPosition="right"
-            onClick={clearGrid}
+            onClick={this.clearGrid}
           >
             Clear
             <Icon name="redo alternate" />

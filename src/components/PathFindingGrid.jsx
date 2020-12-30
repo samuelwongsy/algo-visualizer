@@ -4,15 +4,15 @@ import "./Grid.css";
 
 function PathFindingGrid(props) {
   const [mouseDown, setMouseDown] = useState(false);
-  const { grid, setGrid } = props;
+  const { grid, setGrid, getNewGridWithWallToggled } = props;
 
-  useEffect(() => {
-    for (let row = 0; row < grid.length; row++) {
-      for (let col = 0; col < grid[0].length; col++) {
-        document.getElementById(`node-${row}-${col}`).className = "node";
-      }
-    }
-  }, [grid]);
+  // useEffect(() => {
+  //   for (let row = 0; row < grid.length; row++) {
+  //     for (let col = 0; col < grid[0].length; col++) {
+  //       document.getElementById(`node-${row}-${col}`).className = "node";
+  //     }
+  //   }
+  // }, [grid]);
 
   const handleMouseDown = (row, col) => {
     const newGrid = getNewGridWithWallToggled(grid, row, col);
@@ -20,13 +20,13 @@ function PathFindingGrid(props) {
     setGrid(newGrid);
   };
 
-  const handleMouseOver = (row, col) => {
+  const handleMouseEnter = (row, col) => {
     if (!mouseDown) return;
     const newGrid = getNewGridWithWallToggled(grid, row, col);
     setGrid(newGrid);
   };
 
-  const handleMouseUp = (row, col) => {
+  const handleMouseUp = () => {
     setMouseDown(false);
   };
 
@@ -47,9 +47,11 @@ function PathFindingGrid(props) {
                   isStart={node.isStart}
                   isFinish={node.isFinish}
                   isWall={node.isWall}
-                  onMouseDown={handleMouseDown}
-                  onMouseOver={handleMouseOver}
-                  onMouseUp={handleMouseUp}
+                  isVisited={node.visitedClass}
+                  // mousePressed={mouseDown}
+                  onMouseDown={(row, col) => handleMouseDown(row, col)}
+                  onMouseEnter={(row, col) => handleMouseEnter(row, col)}
+                  onMouseUp={() => handleMouseUp()}
                   onClick={handleClick}
                   row={node.row}
                   col={node.col}
@@ -63,15 +65,5 @@ function PathFindingGrid(props) {
   );
 }
 
-const getNewGridWithWallToggled = (grid, row, col) => {
-  const newGrid = grid;
-  const node = newGrid[row][col];
-  const newNode = {
-    ...node,
-    isWall: true
-  };
-  newGrid[row][col] = newNode;
-  return newGrid;
-};
 
 export default PathFindingGrid;
