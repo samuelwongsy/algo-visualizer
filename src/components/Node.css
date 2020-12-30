@@ -6,17 +6,19 @@
 }
 
 .node-finish {
-    background-image: url('../images/target.svg');
+    background-color: green;
+    /* background-image: url('../images/target.svg');
     background-repeat: no-repeat;
-    background-size: 23px, 23px;
+    background-size: 23px, 23px; */
 }
 
 .node-start {
-    background-image: url('../images/start.svg');
+    background-color: red;
+    /* background-image: url('../images/start.svg');
     background-repeat: no-repeat;
     background-size: 13px, 24px;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
 }
 
 .node-visited {

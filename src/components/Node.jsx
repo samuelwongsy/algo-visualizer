@@ -8,24 +8,11 @@ function Node(props) {
     isFinish,
     isStart,
     isWall,
+    isVisited,
     onMouseDown,
-    onMouseOver,
-    onMouseUp
+    onMouseEnter,
+    onMouseUp,
   } = props;
-
-  const [delayHandler, setDelayHandler] = useState(null);
-
-  const handleMouseEnter = (row, col) => {
-    setDelayHandler(
-      setTimeout(() => {
-        onMouseOver(row, col);
-      }, 1)
-    );
-  };
-
-  const handleMouseLeave = () => {
-    clearTimeout(delayHandler);
-  };
 
   const extraClassName = isFinish
     ? "node-finish"
@@ -33,6 +20,8 @@ function Node(props) {
     ? "node-start"
     : isWall
     ? "node-wall"
+    : isVisited
+    ? "node-visited"
     : "";
 
   return (
@@ -40,9 +29,8 @@ function Node(props) {
       id={`node-${row}-${col}`}
       className={`node ${extraClassName}`}
       onMouseDown={() => onMouseDown(row, col)}
-      onMouseEnter={() => handleMouseEnter(row, col)}
-      onMouseLeave={handleMouseLeave}
-      onMouseUp={() => onMouseUp(row, col)}
+      onMouseEnter={() => onMouseEnter(row, col)}
+      onMouseUp={() => onMouseUp()}
     ></div>
   );
 }
