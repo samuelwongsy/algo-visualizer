@@ -1,4 +1,4 @@
-import MinHeap from './data-structures/MinHeap';
+import MinHeap from '../data-structures/MinHeap';
 // a-star search using manhatten distance heuristics
 // not using visited because a-star search allows you to reach a visited node with
 // a lower distance

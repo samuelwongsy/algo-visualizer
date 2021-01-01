@@ -2,9 +2,10 @@ import React, { useState, useReducer, useEffect } from "react";
 import PathFindingGrid from "./PathFindingGrid";
 import SideMenu from "./SideMenu";
 import { Container, Grid } from "semantic-ui-react";
-import bfs from "../algorithms/breath-first-search";
-import aStarSearch from "../algorithms/a-star-search-queue";
-import aStarSearchMinHeap from "../algorithms/a-star-search-queue";
+import bfs from "../algorithms/path-finding-algorithms/breath-first-search";
+import aStarSearch from "../algorithms/path-finding-algorithms/a-star-search-queue";
+import aStarSearchMinHeap from "../algorithms/path-finding-algorithms/a-star-search";
+import dfs from "../algorithms/path-finding-algorithms/depth-first-search";
 import recursiveDivision from "../algorithms/maze-generation-algorithms/recursive-division";
 
 const START_NODE_ROW = 10;
@@ -173,6 +174,8 @@ const algoReducer = (state, action) => {
       return aStarSearch;
     case "A-star Search Min Heap":
       return aStarSearchMinHeap
+    case "Depth First Search":
+      return dfs;
     default:
       return bfs;
   }
