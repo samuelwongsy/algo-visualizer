@@ -2,7 +2,7 @@
 
 function bfs(grid, startNode, finishNode) {
   if (!startNode || !finishNode || startNode === finishNode) {
-    return false;
+    return [[], []];
   }
 
   const visitedNodesInOrder = [];

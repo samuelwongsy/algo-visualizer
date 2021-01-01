@@ -66,7 +66,7 @@ function divisionHelper(grid, startRow, endRow, startCol, endCol, wallNodesInOrd
 
     if (typeOfDivide === 'vertical') {
         let col = getRandomInt(startCol+1, endCol-1);
-        let tries = 3;
+        let tries = 10;
         while (!(wallNodesSet.has(`${startRow-1}-${col}`) && wallNodesSet.has(`${endRow+1}-${col}`))) {
             if (tries === 0) return;
             col = getRandomInt(startCol+1, endCol-1);
@@ -85,7 +85,7 @@ function divisionHelper(grid, startRow, endRow, startCol, endCol, wallNodesInOrd
         divisionHelper(grid, startRow, endRow, col+1, endCol, wallNodesInOrder, wallNodesSet);
     } else if (typeOfDivide === 'horizontal') {
         let row = getRandomInt(startRow+1, endRow-1);
-        let tries = 3;
+        let tries = 10;
         while (!(wallNodesSet.has(`${row}-${startCol-1}`) && wallNodesSet.has(`${row}-${endCol+1}`))) {
             if (tries === 0) return;
             row = getRandomInt(startRow+1, endRow-1);
