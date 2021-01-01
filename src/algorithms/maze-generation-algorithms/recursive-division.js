@@ -49,14 +49,19 @@ function divisionHelper(grid, startRow, endRow, startCol, endCol, wallNodesInOrd
     const height = endRow - startRow;
     const width = endCol - startCol;
 
-    if (height <= 2 && width <= 2) return;
+    if (height <= 1 && width <= 1) return;
     
     let typeOfDivide;
-    console.log(wallNodesSet);
     if (width >= height) {
         typeOfDivide = 'vertical';
     } else {
         typeOfDivide = 'horizontal';
+    }
+
+    if (height === 3 && typeOfDivide === 'vertical') {
+        typeOfDivide = 'horizontal';
+    } else if (width === 3 && typeOfDivide === 'horizontal') {
+        typeOfDivide = 'vertical';
     }
 
     if (typeOfDivide === 'vertical') {
@@ -102,6 +107,11 @@ function divisionHelper(grid, startRow, endRow, startCol, endCol, wallNodesInOrd
 
 function getRandomInt(min, max) {
     let result = Math.floor(Math.random() * Math.floor(max - min)) + min;
+    if (max-1 === min) {
+        const flag = Math.random();
+        if (flag <= 0.5) return min;
+        if (flag > 0.5) return max;
+    }
     return result;
 }
 
