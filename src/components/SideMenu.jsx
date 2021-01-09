@@ -37,6 +37,11 @@ export default class SideMenu extends Component {
               onClick={this.handleItemClick}
             />
             <Menu.Item
+              name="Depth First Search"
+              active={activeItem === "Depth First Search"}
+              onClick={this.handleItemClick}
+            />
+            <Menu.Item
               name="A-star Search"
               active={activeItem === "A-star Search"}
               onClick={this.handleItemClick}
@@ -55,6 +60,11 @@ export default class SideMenu extends Component {
             <Menu.Item 
               name="Recursive Division"
               active={activeWall === "Recursive Division"}
+              onClick={this.handleWallAlgoClick}
+            />
+            <Menu.Item 
+              name="Binary Tree"
+              active={activeWall === "Binary Tree"}
               onClick={this.handleWallAlgoClick}
             />
           </Menu.Menu>

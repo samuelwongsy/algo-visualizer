@@ -2,10 +2,12 @@ import React, { useState, useReducer, useEffect } from "react";
 import PathFindingGrid from "./PathFindingGrid";
 import SideMenu from "./SideMenu";
 import { Container, Grid } from "semantic-ui-react";
-import bfs from "../algorithms/breath-first-search";
-import aStarSearch from "../algorithms/a-star-search-queue";
-import aStarSearchMinHeap from "../algorithms/a-star-search-queue";
+import bfs from "../algorithms/path-finding-algorithms/breath-first-search";
+import aStarSearch from "../algorithms/path-finding-algorithms/a-star-search-queue";
+import aStarSearchMinHeap from "../algorithms/path-finding-algorithms/a-star-search";
+import dfs from "../algorithms/path-finding-algorithms/depth-first-search";
 import recursiveDivision from "../algorithms/maze-generation-algorithms/recursive-division";
+import binaryTreeMaze from "../algorithms/maze-generation-algorithms/binary-tree-maze";
 
 const START_NODE_ROW = 10;
 const START_NODE_COL = 5;
@@ -85,17 +87,42 @@ export default function PathFindingVisualizer() {
 
   const handleWallGeneration = wallString => {
     let wallAlgo = () => {};
+    let startWithWalls;
     if (wallString === 'Default'){
       return;
     } else if (wallString === 'Recursive Division') {
       wallAlgo = recursiveDivision;
+      startWithWalls = false;
+    } else if (wallString === 'Binary Tree') {
+      wallAlgo = binaryTreeMaze;
+      startWithWalls = true;
     }
 
     const copyOfGrid = grid;
     const startNode = copyOfGrid[START_NODE_ROW][START_NODE_COL];
     const finishNode = copyOfGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const [newGrid, wallNodesInOrder] = wallAlgo(grid, startNode, finishNode);
-    animateWallAlgo(wallNodesInOrder);
+    if (!startWithWalls) {
+      const [newGrid, wallNodesInOrder] = wallAlgo(grid, startNode, finishNode);
+      animateWallAlgo(wallNodesInOrder);
+    } else {
+      const [wallNodesInOrder, nodesInOrder] = wallAlgo(grid, startNode, finishNode);
+      animateWallAlgo(wallNodesInOrder);
+      setTimeout(() => {animateNodeAlgo(nodesInOrder)}, 20 * wallNodesInOrder.length);
+    }
+    
+  }
+
+  const animateNodeAlgo = (nodesInOrder) => {
+    for (let i = 0; i < nodesInOrder.length; i++) {
+      setTimeout(() => {
+        const node = nodesInOrder[i];
+        const newGrid = getNewGridWithWallToggled(grid, node.row, node.col);
+        setGrid(newGrid);
+        if (!(node.isStart || node.isFinish)) {
+          document.getElementById(`node-${node.row}-${node.col}`).className = "node";
+        };
+      }, 50 * i);
+    }
   }
 
   const animateWallAlgo = (wallNodesInOrder) => {
@@ -138,9 +165,9 @@ export default function PathFindingVisualizer() {
 
 const getInitialGrid = () => {
   const grid = [];
-  for (let row = 0; row < 20; row++) {
+  for (let row = 0; row <= 20; row++) {
     const currentRow = [];
-    for (let col = 0; col < 50; col++) {
+    for (let col = 0; col <= 50; col++) {
       const currentNode = createNode(col, row);
       currentRow.push(currentNode);
     }
@@ -173,6 +200,8 @@ const algoReducer = (state, action) => {
       return aStarSearch;
     case "A-star Search Min Heap":
       return aStarSearchMinHeap
+    case "Depth First Search":
+      return dfs;
     default:
       return bfs;
   }
