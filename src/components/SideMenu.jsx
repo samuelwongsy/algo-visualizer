@@ -62,6 +62,11 @@ export default class SideMenu extends Component {
               active={activeWall === "Recursive Division"}
               onClick={this.handleWallAlgoClick}
             />
+            <Menu.Item 
+              name="Binary Tree"
+              active={activeWall === "Binary Tree"}
+              onClick={this.handleWallAlgoClick}
+            />
           </Menu.Menu>
         </Menu.Item>
 
