@@ -106,10 +106,9 @@ export default function PathFindingVisualizer() {
       animateWallAlgo(wallNodesInOrder);
     } else {
       const [wallNodesInOrder, nodesInOrder] = wallAlgo(grid, startNode, finishNode);
-      animateWallAlgo(wallNodesInOrder);
-      setTimeout(() => {animateNodeAlgo(nodesInOrder)}, 20 * wallNodesInOrder.length);
+      animateFullWalls();
+      setTimeout(() => {animateNodeAlgo(nodesInOrder)}, 20 * Math.ceil(wallNodesInOrder.length / 2));
     }
-    
   }
 
   const animateNodeAlgo = (nodesInOrder) => {
@@ -119,9 +118,52 @@ export default function PathFindingVisualizer() {
         const newGrid = getNewGridWithWallToggled(grid, node.row, node.col);
         setGrid(newGrid);
         if (!(node.isStart || node.isFinish)) {
+          // document.getElementById(`node-${node.row}-${node.col}`).className = "node node-intermediate";
           document.getElementById(`node-${node.row}-${node.col}`).className = "node";
         };
       }, 50 * i);
+    }
+  }
+
+  const animateFullWalls = () => {
+    let i = 0, j = 0, isIncreasing = true, count = 0;
+    const lastRow = grid.length, lastCol = grid[0].length;
+    const nodesInOrder = [];
+    while (i < lastRow) {
+      while (0 <= j && j < lastCol) {
+        const node = grid[i][j];
+        nodesInOrder.push(node);
+        if (isIncreasing) {
+          j++;
+        } else {
+          j--;
+        }
+      }
+      if (isIncreasing) {
+        j--;
+      } else {
+        j++;
+      }
+      isIncreasing = !isIncreasing;
+      i++;
+    }
+    
+    for (let i = 0; i <= nodesInOrder.length - i - 1; i++) {
+      setTimeout(() => {
+        const node1 = nodesInOrder[i];
+        const node2 = nodesInOrder[nodesInOrder.length - i - 1];
+        const newGrid1 = getNewGridWithWallToggled(grid, node1.row, node1.col);
+        setGrid(newGrid1);
+        const newGrid2 = getNewGridWithWallToggled(grid, node2.row, node2.col);
+        setGrid(newGrid2);
+
+        if (!(node1.isStart || node1.isFinish)) {
+          document.getElementById(`node-${node1.row}-${node1.col}`).className = "node node-wall";
+        };
+        if (!(node2.isStart || node2.isFinish)) {
+          document.getElementById(`node-${node2.row}-${node2.col}`).className = "node node-wall";
+        }
+      }, 20 * i);
     }
   }
 
