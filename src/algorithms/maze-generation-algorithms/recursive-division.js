@@ -1,8 +1,6 @@
-
-
 function recursiveDivision(grid, startNode, finishNode) {
     if (!startNode || !finishNode || startNode === finishNode) {
-        return false;
+        return [grid, []];
     }
     const newGrid = grid;
     const wallNodesInOrder = [];
