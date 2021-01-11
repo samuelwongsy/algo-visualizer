@@ -63,8 +63,13 @@ export default class SideMenu extends Component {
               onClick={this.handleWallAlgoClick}
             />
             <Menu.Item 
-              name="Binary Tree"
-              active={activeWall === "Binary Tree"}
+              name="Binary Tree Maze"
+              active={activeWall === "Binary Tree Maze"}
+              onClick={this.handleWallAlgoClick}
+            />
+            <Menu.Item 
+              name="Depth First Search Maze"
+              active={activeWall === "Depth First Search Maze"}
               onClick={this.handleWallAlgoClick}
             />
           </Menu.Menu>
