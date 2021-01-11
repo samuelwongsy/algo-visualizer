@@ -8,10 +8,11 @@ import aStarSearchMinHeap from "../algorithms/path-finding-algorithms/a-star-sea
 import dfs from "../algorithms/path-finding-algorithms/depth-first-search";
 import recursiveDivision from "../algorithms/maze-generation-algorithms/recursive-division";
 import binaryTreeMaze from "../algorithms/maze-generation-algorithms/binary-tree-maze";
+import depthFirstSearchMaze from "../algorithms/maze-generation-algorithms/depth-first-search-maze";
 
-const START_NODE_ROW = 10;
+const START_NODE_ROW = 11;
 const START_NODE_COL = 5;
-const FINISH_NODE_ROW = 10;
+const FINISH_NODE_ROW = 11;
 const FINISH_NODE_COL = 45;
 
 export default function PathFindingVisualizer() {
@@ -93,8 +94,11 @@ export default function PathFindingVisualizer() {
     } else if (wallString === 'Recursive Division') {
       wallAlgo = recursiveDivision;
       startWithWalls = false;
-    } else if (wallString === 'Binary Tree') {
+    } else if (wallString === 'Binary Tree Maze') {
       wallAlgo = binaryTreeMaze;
+      startWithWalls = true;
+    } else if (wallString === 'Depth First Search Maze') {
+      wallAlgo = depthFirstSearchMaze;
       startWithWalls = true;
     }
 
@@ -149,21 +153,32 @@ export default function PathFindingVisualizer() {
     }
     
     for (let i = 0; i <= nodesInOrder.length - i - 1; i++) {
-      setTimeout(() => {
-        const node1 = nodesInOrder[i];
-        const node2 = nodesInOrder[nodesInOrder.length - i - 1];
-        const newGrid1 = getNewGridWithWallToggled(grid, node1.row, node1.col);
-        setGrid(newGrid1);
-        const newGrid2 = getNewGridWithWallToggled(grid, node2.row, node2.col);
-        setGrid(newGrid2);
-
-        if (!(node1.isStart || node1.isFinish)) {
-          document.getElementById(`node-${node1.row}-${node1.col}`).className = "node node-wall";
-        };
-        if (!(node2.isStart || node2.isFinish)) {
-          document.getElementById(`node-${node2.row}-${node2.col}`).className = "node node-wall";
-        }
-      }, 20 * i);
+      if (i === nodesInOrder.length - i - 1) {
+        setTimeout(() => {
+          const node = nodesInOrder[i];
+          const newGrid = getNewGridWithWallToggled(grid, node.row, node.col);
+          setGrid(newGrid);
+          if (!(node.isStart || node.isFinish)) {
+            document.getElementById(`node-${node.row}-${node.col}`).className = "node node-wall";
+          };
+        }, 20 * i);
+      } else {
+        setTimeout(() => {
+          const node1 = nodesInOrder[i];
+          const node2 = nodesInOrder[nodesInOrder.length - i - 1];
+          const newGrid1 = getNewGridWithWallToggled(grid, node1.row, node1.col);
+          setGrid(newGrid1);
+          const newGrid2 = getNewGridWithWallToggled(grid, node2.row, node2.col);
+          setGrid(newGrid2);
+  
+          if (!(node1.isStart || node1.isFinish)) {
+            document.getElementById(`node-${node1.row}-${node1.col}`).className = "node node-wall";
+          };
+          if (!(node2.isStart || node2.isFinish)) {
+            document.getElementById(`node-${node2.row}-${node2.col}`).className = "node node-wall";
+          }
+        }, 20 * i);
+      }
     }
   }
 
@@ -230,7 +245,9 @@ const createNode = (col, row) => {
     isVisited: false,
     isWall: false,
     visitedClass: false,
-    previousNode: null
+    previousNode: null,
+    isExplored: false,
+    previousExploredNode: false
   };
 };
 

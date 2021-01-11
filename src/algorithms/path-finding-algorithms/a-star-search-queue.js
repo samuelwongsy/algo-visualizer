@@ -7,7 +7,7 @@ let FINISH_NODE_COL;
 
 function aStarSearch(grid, startNode, finishNode) {
     if (!startNode || !finishNode || startNode === finishNode) {
-        return false;
+        return [[], []];
     }
 
     FINISH_NODE_ROW = finishNode.row;
