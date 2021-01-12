@@ -14,7 +14,6 @@ function depthFirstSearchMaze(grid, startNode, finishNode) {
 
     const nodesInOrder = [];
     const stack = [];
-    const startRow = 1, startCol = 1, endRow = grid.length-2, endCol = grid[0].length-2;
     stack.push(startNode);
 
     while (!!stack.length) {
