@@ -1,14 +1,14 @@
 import React, { useState, useReducer, useEffect } from "react";
-import PathFindingGrid from "./PathFindingGrid";
+import PathFindingGrid from "./PathFindingGrid/PathFindingGrid";
 import SideMenu from "./SideMenu";
 import { Container, Grid } from "semantic-ui-react";
-import bfs from "../algorithms/path-finding-algorithms/breath-first-search";
-import aStarSearch from "../algorithms/path-finding-algorithms/a-star-search-queue";
-import aStarSearchMinHeap from "../algorithms/path-finding-algorithms/a-star-search";
-import dfs from "../algorithms/path-finding-algorithms/depth-first-search";
-import recursiveDivision from "../algorithms/maze-generation-algorithms/recursive-division";
-import binaryTreeMaze from "../algorithms/maze-generation-algorithms/binary-tree-maze";
-import depthFirstSearchMaze from "../algorithms/maze-generation-algorithms/depth-first-search-maze";
+import bfs from "../../algorithms/path-finding-algorithms/breath-first-search";
+import aStarSearch from "../../algorithms/path-finding-algorithms/a-star-search-queue";
+import aStarSearchMinHeap from "../../algorithms/path-finding-algorithms/a-star-search";
+import dfs from "../../algorithms/path-finding-algorithms/depth-first-search";
+import recursiveDivision from "../../algorithms/maze-generation-algorithms/recursive-division";
+import binaryTreeMaze from "../../algorithms/maze-generation-algorithms/binary-tree-maze";
+import depthFirstSearchMaze from "../../algorithms/maze-generation-algorithms/depth-first-search-maze";
 
 const START_NODE_ROW = 11;
 const START_NODE_COL = 5;
@@ -196,8 +196,8 @@ export default function PathFindingVisualizer() {
 
   return (
     <div>
-      <Grid verticalAlign="middle" stackable>
-        <Grid.Column width={2}>
+      <Grid verticalAlign="middle" columns={2}>
+        <Grid.Column width={3} floated="left" only="large screen">
           <Container fluid>
             <SideMenu
               handleSelection={handleSelection}
@@ -207,7 +207,7 @@ export default function PathFindingVisualizer() {
             />
           </Container>
         </Grid.Column>
-        <Grid.Column width={12}>
+        <Grid.Column width={13} only="large screen">
           <PathFindingGrid
             algoString={algoString}
             grid={grid}

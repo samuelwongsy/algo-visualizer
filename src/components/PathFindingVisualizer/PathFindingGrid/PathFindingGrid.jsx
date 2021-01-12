@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Node from "./Node";
+import Node from "./Node/Node";
 import "./Grid.css";
 
 function PathFindingGrid(props) {

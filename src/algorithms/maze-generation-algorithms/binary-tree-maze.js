@@ -25,10 +25,10 @@ function binaryTreeMaze(grid, startNode, finishNode) {
             nodesInOrder.push(currentNode);
             
             const neighbours = [];
-            if (row > 1) neighbours.push(grid[row-2][col]);
-            if (col > 1) neighbours.push(grid[row][col-2]);
+            if (row > startRow) neighbours.push(grid[row-2][col]);
+            if (col > startCol) neighbours.push(grid[row][col-2]);
 
-            if (neighbours.length == 0) continue;
+            if (neighbours.length === 0) continue;
 
             let randomIndex;
             if (Math.random() < 0.5) {

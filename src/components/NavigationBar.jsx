@@ -1,18 +1,12 @@
 import React from "react";
 import {
   Container,
-  Divider,
-  Dropdown,
-  Grid,
-  Header,
   Image,
-  List,
   Menu,
-  Segment
 } from "semantic-ui-react";
 
 function NavigationBar(props) {
-  const { algoString, handleSelection } = props;
+  // const { algoString, handleSelection } = props;
 
   return (
     <div>
@@ -24,10 +18,10 @@ function NavigationBar(props) {
               src={require("../images/snowflake.svg")}
               style={{ marginRight: "1.5em" }}
             />
-            Algorithm Visualizer
+            Samuel Wong
           </Menu.Item>
-          <Menu.Item as="a" href="/">
-            Home
+          <Menu.Item as="a" href="/algo-visualizer">
+            Algorithm Visualizer
           </Menu.Item>
 
           {/* <Dropdown item simple text="Pathfinding Visualizer">
