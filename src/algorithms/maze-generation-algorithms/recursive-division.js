@@ -63,15 +63,25 @@ function divisionHelper(grid, startRow, endRow, startCol, endCol, wallNodesInOrd
     }
 
     if (typeOfDivide === 'vertical') {
-        let col = getRandomInt(startCol+1, endCol-1);
-        let tries = 10;
+        let col = getRandomInt(startCol+1, endCol-1), tries = 10;
+        let override = false, openRowOverride = -1;
         while (!(wallNodesSet.has(`${startRow-1}-${col}`) && wallNodesSet.has(`${endRow+1}-${col}`))) {
+            if (!wallNodesSet.has(`${startRow-1}-${col}`) && wallNodesSet.has(`${endRow+1}-${col}`)) {
+                openRowOverride = startRow;
+                override = true;
+                break;
+            } else if (wallNodesSet.has(`${startRow-1}-${col}`) && !wallNodesSet.has(`${endRow+1}-${col}`)) {
+                openRowOverride = endRow;
+                override = true;
+                break;
+            }
             if (tries === 0) return;
             col = getRandomInt(startCol+1, endCol-1);
             tries--;
         }
         // const col = Math.floor((startCol + endCol) / 2);
-        const openRow = getRandomInt(startRow, endRow);
+        let openRow = getRandomInt(startRow, endRow);
+        if (override) openRow = openRowOverride;
         for (let row = startRow; row <= endRow; row++) {
             if (row === openRow) continue;
             const currentNode = grid[row][col];
@@ -82,15 +92,24 @@ function divisionHelper(grid, startRow, endRow, startCol, endCol, wallNodesInOrd
         divisionHelper(grid, startRow, endRow, startCol, col-1, wallNodesInOrder, wallNodesSet);
         divisionHelper(grid, startRow, endRow, col+1, endCol, wallNodesInOrder, wallNodesSet);
     } else if (typeOfDivide === 'horizontal') {
-        let row = getRandomInt(startRow+1, endRow-1);
-        let tries = 10;
+        let row = getRandomInt(startRow+1, endRow-1), tries = 10;
+        let override = false, openColOverride = -1;
         while (!(wallNodesSet.has(`${row}-${startCol-1}`) && wallNodesSet.has(`${row}-${endCol+1}`))) {
+            if (!wallNodesSet.has(`${row}-${startCol-1}`) && wallNodesSet.has(`${row}-${endCol+1}`)) {
+                openColOverride = startCol;
+                override = true;
+                break;
+            } else if (wallNodesSet.has(`${row}-${startCol-1}`) && !wallNodesSet.has(`${row}-${endCol+1}`)) {
+                openColOverride = endCol;
+                override = true;
+            }
             if (tries === 0) return;
             row = getRandomInt(startRow+1, endRow-1);
             tries--;
         }
         // const row = Math.floor((startRow + endRow) / 2);
-        const openCol = getRandomInt(startCol, endCol);
+        let openCol = getRandomInt(startCol, endCol);
+        if (override) openCol = openColOverride;
         for (let col = startCol; col <= endCol; col++) {
             if (col === openCol) continue;
             const currentNode = grid[row][col];
