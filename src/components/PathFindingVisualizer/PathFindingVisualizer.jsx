@@ -1,6 +1,8 @@
 import React, { useState, useReducer, useEffect } from "react";
+import "./PathFindingVisualizer.css";
 import PathFindingGrid from "./PathFindingGrid/PathFindingGrid";
 import SideMenu from "./SideMenu";
+import SmallScreenContainerText from "./SmallScreenContainerText";
 import { Container, Grid } from "semantic-ui-react";
 import bfs from "../../algorithms/path-finding-algorithms/breath-first-search";
 import aStarSearch from "../../algorithms/path-finding-algorithms/a-star-search-queue";
@@ -196,8 +198,8 @@ export default function PathFindingVisualizer() {
 
   return (
     <div>
-      <Grid verticalAlign="middle" columns={2}>
-        <Grid.Column width={3} floated="left" only="large screen">
+      <Grid verticalAlign="middle" >
+        <Grid.Column width={3} floated="left">
           <Container fluid>
             <SideMenu
               handleSelection={handleSelection}
@@ -207,7 +209,7 @@ export default function PathFindingVisualizer() {
             />
           </Container>
         </Grid.Column>
-        <Grid.Column width={13} only="large screen">
+        <Grid.Column width={13}>
           <PathFindingGrid
             algoString={algoString}
             grid={grid}
@@ -215,6 +217,9 @@ export default function PathFindingVisualizer() {
             getNewGridWithWallToggled={getNewGridWithWallToggled}
           />
         </Grid.Column>
+        {/* <Grid.Column className="segment centered" only="mobile tablet">
+          <SmallScreenContainerText />
+        </Grid.Column> */}
       </Grid>
     </div>
   );

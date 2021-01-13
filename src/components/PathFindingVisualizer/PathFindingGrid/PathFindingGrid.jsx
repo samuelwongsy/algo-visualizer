@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Node from "./Node/Node";
-import "./Grid.css";
+import "./PathFindingGrid.css";
 
 function PathFindingGrid(props) {
   const [mouseDown, setMouseDown] = useState(false);
