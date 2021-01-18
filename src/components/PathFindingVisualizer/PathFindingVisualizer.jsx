@@ -200,7 +200,7 @@ export default function PathFindingVisualizer() {
     <div>
       <Grid verticalAlign="middle" >
         <Grid.Column width={3} floated="left">
-          <Container fluid>
+          <Container fluid className='sideMenuWrapper'>
             <SideMenu
               handleSelection={handleSelection}
               visualizeAlgorithm={visualizeAlgorithm}

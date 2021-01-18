@@ -1,6 +1,6 @@
 .node {
-    width: 27px;
-    height: 27px;
+    width: 30px;
+    height: 30px;
     border: 0.1px solid rgb(175, 216, 248);
     display: inline-block;
     background-color: white;
@@ -112,4 +112,31 @@
         background: #bef75c;
         transform: scale(1);
     }
+}
+
+@media screen and (max-width: 1600px) {
+  .node{
+    width: 27px;
+    height: 27px;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .node{
+    width: 23px;
+    height: 23px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .node{
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .node{
+    display: none;
+  }
 }
