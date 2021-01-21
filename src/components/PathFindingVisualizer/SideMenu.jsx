@@ -13,6 +13,7 @@ export default class SideMenu extends Component {
   };
 
   handleWallAlgoClick = (e, { name }) => {
+    if (this.props.mazeFlag || !this.props.clearFlag) return;
     this.setState({ activeWall: name });
     this.props.handleWallGeneration(name);
   }
@@ -24,7 +25,7 @@ export default class SideMenu extends Component {
 
   render() {
     const { activeItem, activeWall } = this.state;
-    const { visualizeAlgorithm, clearGrid } = this.props;
+    const { visualizeAlgorithm, clearGrid, animateFlag, clearFlag } = this.props;
 
     return (
       <Menu fluid inverted vertical size="large">
@@ -97,6 +98,7 @@ export default class SideMenu extends Component {
             icon
             labelPosition="right"
             onClick={visualizeAlgorithm}
+            disabled={animateFlag || (!animateFlag && !clearFlag)}
           >
             Visualize
             <Icon name="caret square right" />
@@ -109,6 +111,7 @@ export default class SideMenu extends Component {
             icon
             labelPosition="right"
             onClick={this.clearGrid}
+            disabled={animateFlag}
           >
             Clear
             <Icon name="redo alternate" />

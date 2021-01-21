@@ -20,6 +20,9 @@ const FINISH_NODE_COL = 45;
 export default function PathFindingVisualizer() {
   const [grid, setGrid] = useState(getInitialGrid());
   const [algoString, setAlgoString] = useState("Breadth First Search");
+  const [animateFlag, setAnimateFlag] = useState(false);
+  const [mazeFlag, setMazeFlag] = useState(false);
+  const [clearFlag, setClearFlag] = useState(true);
   const [algorithm, dispatch] = useReducer(algoReducer, bfs);
 
   useEffect(() => {
@@ -40,6 +43,8 @@ export default function PathFindingVisualizer() {
   };
 
   const animateAlgorithm = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+    setAnimateFlag(true);
+    setClearFlag(false);
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
@@ -66,6 +71,9 @@ export default function PathFindingVisualizer() {
           "node node-shortest";
       }, 50 * j);
     }
+    setTimeout(() => {
+      setAnimateFlag(false);
+    }, 50 * nodesInShortestPathOrder.length);
   };
 
   const clearGrid = () => {
@@ -81,16 +89,19 @@ export default function PathFindingVisualizer() {
         }
       }
     }
+    setClearFlag(true);
+    setMazeFlag(false);
+    setAnimateFlag(false);
   };
 
   const handleSelection = newAlgoString => {
     setAlgoString(newAlgoString);
-    console.log(newAlgoString);
   };
 
   const handleWallGeneration = wallString => {
     let wallAlgo = () => {};
     let startWithWalls;
+    setMazeFlag(true);
     if (wallString === 'Default'){
       return;
     } else if (wallString === 'Recursive Division') {
@@ -129,9 +140,13 @@ export default function PathFindingVisualizer() {
         };
       }, 50 * i);
     }
+    setTimeout(() => {
+      setAnimateFlag(false);
+    }, 50 * nodesInOrder.length);
   }
 
   const animateFullWalls = () => {
+    setAnimateFlag(true);
     let i = 0, j = 0, isIncreasing = true, count = 0;
     const lastRow = grid.length, lastCol = grid[0].length;
     const nodesInOrder = [];
@@ -185,6 +200,7 @@ export default function PathFindingVisualizer() {
   }
 
   const animateWallAlgo = (wallNodesInOrder) => {
+    setAnimateFlag(true);
     for (let i = 0; i < wallNodesInOrder.length; i++) {
       setTimeout(() => {
         const node = wallNodesInOrder[i];
@@ -194,6 +210,9 @@ export default function PathFindingVisualizer() {
             "node node-wall";
       }, 20 * i);
     }
+    setTimeout(() => {
+      setAnimateFlag(false);
+    }, 20 * wallNodesInOrder.length);
   }
 
   return (
@@ -206,6 +225,9 @@ export default function PathFindingVisualizer() {
               visualizeAlgorithm={visualizeAlgorithm}
               clearGrid={clearGrid}
               handleWallGeneration={handleWallGeneration}
+              animateFlag={animateFlag}
+              mazeFlag={mazeFlag}
+              clearFlag={clearFlag}
             />
           </Container>
         </Grid.Column>
