@@ -11,6 +11,7 @@ import dfs from "../../algorithms/path-finding-algorithms/depth-first-search";
 import recursiveDivision from "../../algorithms/maze-generation-algorithms/recursive-division";
 import binaryTreeMaze from "../../algorithms/maze-generation-algorithms/binary-tree-maze";
 import depthFirstSearchMaze from "../../algorithms/maze-generation-algorithms/depth-first-search-maze";
+import randomizedPrimsAlgorithmMaze from "../../algorithms/maze-generation-algorithms/randomized-prims-algorithm";
 
 const START_NODE_ROW = 11;
 const START_NODE_COL = 5;
@@ -102,19 +103,26 @@ export default function PathFindingVisualizer() {
     let wallAlgo = () => {};
     let startWithWalls;
     setMazeFlag(true);
-    if (wallString === 'Default'){
-      return;
-    } else if (wallString === 'Recursive Division') {
-      wallAlgo = recursiveDivision;
-      startWithWalls = false;
-    } else if (wallString === 'Binary Tree Maze') {
-      wallAlgo = binaryTreeMaze;
-      startWithWalls = true;
-    } else if (wallString === 'Depth First Search Maze') {
-      wallAlgo = depthFirstSearchMaze;
-      startWithWalls = true;
+    switch(wallString) {
+      case 'Recursive Division':
+        wallAlgo = recursiveDivision;
+        startWithWalls = false;
+        break;
+      case 'Binary Tree Maze':
+        wallAlgo = binaryTreeMaze;
+        startWithWalls = true;
+        break;
+      case 'Depth First Search Maze':
+        wallAlgo = depthFirstSearchMaze;
+        startWithWalls = true;
+        break;
+      case "Randomized Prim's Algorithm":
+        wallAlgo = randomizedPrimsAlgorithmMaze;
+        startWithWalls = true;
+        break;
+      case 'Default':
+        return;
     }
-
     const copyOfGrid = grid;
     const startNode = copyOfGrid[START_NODE_ROW][START_NODE_COL];
     const finishNode = copyOfGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
@@ -274,7 +282,8 @@ const createNode = (col, row) => {
     visitedClass: false,
     previousNode: null,
     isExplored: false,
-    previousExploredNode: false
+    previousExploredNode: false,
+    isConnected: false
   };
 };
 

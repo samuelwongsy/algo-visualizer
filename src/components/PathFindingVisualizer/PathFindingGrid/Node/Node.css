@@ -1,117 +1,117 @@
 .node {
-    width: 30px;
-    height: 30px;
-    border: 0.1px solid rgb(175, 216, 248);
-    display: inline-block;
-    background-color: white;
+  width: 30px;
+  height: 30px;
+  border: 0.1px solid rgb(175, 216, 248);
+  display: inline-block;
+  background-color: white;
 }
 
 .node-finish {
-    background-color: green;
-    /* background-image: url('../images/target.svg');
-    background-repeat: no-repeat;
-    background-size: 23px, 23px; */
+  background-color: green;
+  /* background-image: url('../images/target.svg');
+  background-repeat: no-repeat;
+  background-size: 23px, 23px; */
 }
 
 .node-start {
-    background-color: red;
-    /* background-image: url('../images/start.svg');
-    background-repeat: no-repeat;
-    background-size: 13px, 24px;
-    justify-content: center;
-    align-items: center; */
+  background-color: red;
+  /* background-image: url('../images/start.svg');
+  background-repeat: no-repeat;
+  background-size: 13px, 24px;
+  justify-content: center;
+  align-items: center; */
 }
 
 .node-visited {
-    background-color: #5FB1BF;
-    animation-name: show-visited;
-    animation-duration: 1.2s;
+  background-color: #5FB1BF;
+  animation-name: show-visited;
+  animation-duration: 1.2s;
 
 }
 
 .node-wall {
-    background: #63768D;
-    box-shadow: inset 0px -1px 2px 2px #3B4654;
-    animation-name: wall-select;
-    animation-duration: 0.2s;
+  background: #63768D;
+  box-shadow: inset 0px -1px 2px 2px #3B4654;
+  animation-name: wall-select;
+  animation-duration: 0.2s;
 }
 
 .node-shortest {
-    background-color: #bef75c;
-    animation-name: show-shortest-path;
-    animation-duration: 1s;
+  background-color: #bef75c;
+  animation-name: show-shortest-path;
+  animation-duration: 1s;
 }
 
 @keyframes wall-select {
-    0% {
-        background: #63768D;
-        box-shadow: inset 0px -1px 2px 2px #3B4654;
-        transform: scale(0.5);
-    }
+  0% {
+    background: #63768D;
+    box-shadow: inset 0px -1px 2px 2px #3B4654;
+    transform: scale(0.5);
+  }
 
-    50% {
-        background: #63768D;
-        box-shadow: inset 0px -1px 2px 2px #3B4654;
-        transform: scale(1);
-        border-radius: 4%;
-    }
+  50% {
+    background: #63768D;
+    box-shadow: inset 0px -1px 2px 2px #3B4654;
+    transform: scale(1);
+    border-radius: 4%;
+  }
 
-    75% {
-        background: #63768D;
-        box-shadow: inset 0px -1px 2px 2px #3B4654;
-        transform: scale(1.1);
-        border-radius: 4%;
-    }
+  75% {
+    background: #63768D;
+    box-shadow: inset 0px -1px 2px 2px #3B4654;
+    transform: scale(1.1);
+    border-radius: 4%;
+  }
 
-    100% {
-        background: #63768D;
-        box-shadow: inset 0px -1px 2px 2px #3B4654;
-        transform: scale(1);
-    }
+  100% {
+    background: #63768D;
+    box-shadow: inset 0px -1px 2px 2px #3B4654;
+    transform: scale(1);
+  }
 }
 
 @keyframes show-visited {
-    0% {
-        transform: scale(0.3);
-        background-color: rgba(0, 0, 66, 0.75);
-        border-radius: 100%;
-    }
+  0% {
+    transform: scale(0.3);
+    background-color: rgba(0, 0, 66, 0.75);
+    border-radius: 100%;
+  }
 
-    50% {
-        background-color: rgba(195, 78, 206, 0.75);
-    }
+  50% {
+    background-color: rgba(195, 78, 206, 0.75);
+  }
 
-    75% {
-        transform: scale(1.2);
-        background-color: rgba(0, 217, 159, 0.75);
-    }
+  75% {
+    transform: scale(1.2);
+    background-color: rgba(0, 217, 159, 0.75);
+  }
 
-    100% {
-        transform: scale(1);
-        background-color: #5FB1BF;
-    }
+  100% {
+    transform: scale(1);
+    background-color: #5FB1BF;
+  }
 }
 
 @keyframes show-shortest-path {
-    0% {
-        background: red;
-        transform: scale(0.6);
-    }
+  0% {
+    background: red;
+    transform: scale(0.6);
+  }
 
-    30% {
-        background: orange;
-        transform: scale(0.9);
-    }
+  30% {
+    background: orange;
+    transform: scale(0.9);
+  }
 
-    60% {
-        background: yellow;
-        transform: scale(1.1);
-    }
+  60% {
+    background: yellow;
+    transform: scale(1.1);
+  }
 
-    100% {
-        background: #bef75c;
-        transform: scale(1);
-    }
+  100% {
+    background: #bef75c;
+    transform: scale(1);
+  }
 }
 
 @media screen and (max-width: 1600px) {

@@ -73,24 +73,14 @@ export default class SideMenu extends Component {
               active={activeWall === "Depth First Search Maze"}
               onClick={this.handleWallAlgoClick}
             />
+            <Menu.Item 
+              name="Randomized Prim's Algorithm"
+              active={activeWall === "Randomized Prim's Algorithm"}
+              onClick={this.handleWallAlgoClick}
+            />
           </Menu.Menu>
         </Menu.Item>
-
-        {/* <Menu.Item
-          name="home"
-          active={activeItem === "home"}
-          onClick={this.handleItemClick}
-        />
-        <Menu.Item
-          name="messages"
-          active={activeItem === "messages"}
-          onClick={this.handleItemClick}
-        />
-        <Menu.Item
-          name="friends"
-          active={activeItem === "friends"}
-          onClick={this.handleItemClick}
-        /> */}
+        
         <Menu.Item>
           <Button
             fluid
