@@ -12,7 +12,7 @@ function NavigationBar(props) {
     <div>
       <Menu fixed="top" inverted>
         <Container>
-          <Menu.Item as="a" href="https://www.github.com/samuelwongsy" header>
+          <Menu.Item as="a" href="https://samuelwongsy.me" header>
             <Image
               size="mini"
               src={require("../images/snowflake.svg")}
